@@ -1,0 +1,6 @@
+Namespace(agent='ER', alpha=0.9, aser_type='asvm', batch=10, buffer_tracker=False, cl_type='ni', classifier_chill=0.01, clip=10.0, cuda=True, cumulative_delta=False, data='mini_imagenet', epoch=1, eps_mem_batch=10, error_analysis=False, fisher_update_after=50, fix_order=False, gss_batch_size=10, gss_mem_strength=10, head='mlp', k=5, kd_trick=False, kd_trick_star=False, labels_trick=False, lambda_=100, learning_rate=0.1, log_alpha=-300, mem_epoch=70, mem_iters=1, mem_size=5000, min_delta=0.0, minlr=0.0005, n_smp_cls=2.0, ncm_trick=False, ns_factor=(0.0, 0.4, 0.8, 1.2, 1.6, 2.0, 2.4, 2.8, 3.2, 3.6), ns_task=(1, 1, 2, 2, 2, 2), ns_type='noise', num_runs=1, num_runs_val=3, num_tasks=10, num_val=3, online=True, optimizer='SGD', patience=0, plot_sample=False, retrieve='MIR', review_trick=False, save_path=None, seed=0, separated_softmax=False, stm_capacity=1000, store=False, subsample=50, temp=0.07, test_batch=128, update='random', val_size=0.1, verbose=True, warmup=4, weight_decay=0)
+Setting up data stream
+data setup time: 3.2363414764404297
+0 0.0
+1 0.4
+2 0.8

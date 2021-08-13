@@ -9,7 +9,9 @@ class DatasetBase(ABC):
         self.dataset = dataset
         self.task_nums = task_nums
         self.run = run
-        self.root = os.path.join('./datasets', self.dataset)
+        # self.root = os.path.join('./datasets', self.dataset)
+        # office
+        self.root = os.path.join('/data/tianmu/data/dynamic_segmentation/ocl', self.dataset)
         self.test_set = []
         self.val_set = []
         self._is_properly_setup()
