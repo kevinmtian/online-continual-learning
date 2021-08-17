@@ -54,7 +54,7 @@ class ExperienceReplay(ContinualLearner):
                     self.opt.zero_grad()
                     loss.backward()
 
-                    # mem update
+                    # mem update (retrieve samples from memory and train on them)
                     mem_x, mem_y = self.buffer.retrieve(x=batch_x, y=batch_y)
                     if mem_x.size(0) > 0:
                         mem_x = maybe_cuda(mem_x, self.cuda)
@@ -88,7 +88,7 @@ class ExperienceReplay(ContinualLearner):
                     else:
                         self.opt.step()
 
-                # update mem
+                # update mem (updated memory buffer)
                 self.buffer.update(batch_x, batch_y)
 
                 if i % 100 == 1 and self.verbose:
