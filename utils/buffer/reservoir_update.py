@@ -7,9 +7,22 @@ class Reservoir_update(object):
 
     def update(self, buffer, x, y, **kwargs):
         batch_size = x.size(0)
+        # import pdb; pdb.set_trace()
+        # (Pdb) x.size()
+        # torch.Size([10, 3, 84, 84])
+        # (Pdb) y.size()
+        # torch.Size([10])
 
         # add whatever still fits in the buffer
         place_left = max(0, buffer.buffer_img.size(0) - buffer.current_index)
+        # (Pdb) pp buffer.buffer_img.size()
+        # torch.Size([5000, 3, 84, 84])
+        # (Pdb) pp place_left
+        # 5000
+        # (Pdb) pp batch_size
+        # 10
+        # (Pdb) buffer.buffer_label.size()
+        # torch.Size([5000])
         if place_left:
             offset = min(place_left, batch_size)
             buffer.buffer_img[buffer.current_index: buffer.current_index + offset].data.copy_(x[:offset])

@@ -12,7 +12,11 @@ class MIR_retrieve(object):
         self.subsample = params.subsample
         self.num_retrieve = params.eps_mem_batch
 
-    def retrieve(self, buffer, **kwargs):
+    def retrieve(self, buffer, **kwargs):        
+        # (Pdb) self.subsample
+        # 50
+        # (Pdb) self.num_retrieve
+        # 10
         sub_x, sub_y = random_retrieve(buffer, self.subsample)
         grad_dims = []
         for param in buffer.model.parameters():
@@ -20,13 +24,27 @@ class MIR_retrieve(object):
         grad_vector = get_grad_vector(buffer.model.parameters, grad_dims)
         model_temp = self.get_future_step_parameters(buffer.model, grad_vector, grad_dims)
         if sub_x.size(0) > 0:
+            # if sub_x.size(0) > 10:
+            #     import pdb; pdb.set_trace()
+            #     print(sub_x.size(0))
+            # import pdb; pdb.set_trace()
+            # (Pdb) sub_x.size()
+            # torch.Size([10, 3, 84, 84])
+            # (Pdb) self.num_retrieve
+            # 10
             with torch.no_grad():
                 logits_pre = buffer.model.forward(sub_x)
+                # (Pdb) sub_x.size()
+                # torch.Size([20, 3, 84, 84])
                 logits_post = model_temp.forward(sub_x)
                 pre_loss = F.cross_entropy(logits_pre, sub_y, reduction='none')
                 post_loss = F.cross_entropy(logits_post, sub_y, reduction='none')
                 scores = post_loss - pre_loss
+                # (Pdb) scores.size()
+                # torch.Size([20])
                 big_ind = scores.sort(descending=True)[1][:self.num_retrieve]
+                # (Pdb) big_ind.size()
+                # torch.Size([10])
             return sub_x[big_ind], sub_y[big_ind]
         else:
             return sub_x, sub_y

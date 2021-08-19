@@ -36,6 +36,11 @@ class ExperienceReplay(ContinualLearner):
                 batch_x, batch_y = batch_data
                 batch_x = maybe_cuda(batch_x, self.cuda)
                 batch_y = maybe_cuda(batch_y, self.cuda)
+                # import pdb; pdb.set_trace()
+                # (Pdb) pp batch_x.size()
+                #     torch.Size([10, 3, 84, 84])
+                # (Pdb) pp batch_y.size()
+                #     torch.Size([10])
                 for j in range(self.mem_iters):
                     logits = self.model.forward(batch_x)
                     loss = self.criterion(logits, batch_y)
@@ -56,7 +61,17 @@ class ExperienceReplay(ContinualLearner):
 
                     # mem update (retrieve samples from memory and train on them)
                     mem_x, mem_y = self.buffer.retrieve(x=batch_x, y=batch_y)
+                    # import pdb; pdb.set_trace()
+                    # (Pdb) mem_x.size()
+                    # (Pdb) batch_x.size()
+                    # torch.Size([10, 3, 84, 84])
+                    # torch.Size([0, 3, 84, 84])
+                    # (Pdb) self.buffer.retrieve_method
+                    # <utils.buffer.mir_retrieve.MIR_retrieve object at 0x7f408166ba90>
                     if mem_x.size(0) > 0:
+                        # import pdb; pdb.set_trace()
+                        # (Pdb) mem_x.size()
+                        # torch.Size([10, 3, 84, 84])
                         mem_x = maybe_cuda(mem_x, self.cuda)
                         mem_y = maybe_cuda(mem_y, self.cuda)
                         mem_logits = self.model.forward(mem_x)
